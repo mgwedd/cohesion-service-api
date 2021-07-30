@@ -1,33 +1,56 @@
-require( 'dotenv' ).config();
-const express = require( 'express' );
-const morgan = require( 'morgan');
-const cors = require( 'cors' );
-const helmet = require( 'helmet' );
-const { NODE_ENV } = require('./config');
+const express = require('express')
+const helmet = require('helmet')
+const xss = require('xss-clean')
+const mongoSanitize = require('express-mongo-sanitize')
+const compression = require('compression')
+const cors = require('cors')
+const httpStatus = require('http-status')
 
-const app = express();
+const config = require('./config/config')
+const morgan = require('./config/morgan')
+const routes = require('./routes/v1')
+const ApiError = require('./utils/ApiError')
+const { errorConverter, errorHandler } = require('./middleware/error')
 
-const morganOption = ( NODE_ENV === 'production' )
-  ? 'tiny'
-  : 'common';
-app.use( morgan( morganOption ) );
-app.use( cors() );
-app.use( helmet() );
+const app = express()
 
-app.get( '/', ( req, res ) => {
-  res.send( 'Hello, Boilerplate!' );
-});
+if (config.env !== 'test') {
+  app.use(morgan.successHandler)
+  app.use(morgan.errorHandler)
+}
 
-app.use(function errorHandler( error, req, res, next ) {
-  let response;
-  if ( NODE_ENV === 'production' ) {
-    response = { error: { message: 'Server Error' } };
-  } else {
-    console.error( error );
-    response = { message: error.message, error };
-  }
-  res.status( 500 ).json( response )
-});
+// set security HTTP headers
+app.use(helmet())
 
+// parse request body as json
+app.use(express.json())
 
-module.exports = app;
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }))
+
+// sanitize request data
+app.use(xss())
+app.use(mongoSanitize())
+
+// gzip compression
+app.use(compression())
+
+// enable cors
+app.use(cors())
+app.options('*', cors())
+
+// v1 api routes
+app.use('/api/v1', routes)
+
+// send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'))
+})
+
+// convert error to ApiError, if needed
+app.use(errorConverter)
+
+// handle error
+app.use(errorHandler)
+
+module.exports = app
