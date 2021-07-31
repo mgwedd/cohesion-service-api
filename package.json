@@ -1,7 +1,7 @@
 {
   "name": "cohesion-service-api",
   "version": "0.1.0",
-  "description": "An API for managing service requests through Cohesion's platform",
+  "description": "An API for clients to make maintenance requests to building managers through Cohesion's platform",
   "main": "index.js",
   "engines": {
     "node": ">=12.0.0"
