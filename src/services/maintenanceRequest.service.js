@@ -1,6 +1,8 @@
 const httpStatus = require('http-status')
+
 const { MaintenanceRequest } = require('../models')
 const ApiError = require('../utils/ApiError')
+const logger = require('../config/logger')
 
 /**
  * Create a maintenance request
@@ -8,6 +10,7 @@ const ApiError = require('../utils/ApiError')
  * @returns {Promise<MaintenanceRequest>}
  */
 const createMaintenanceRequest = async (maintenanceRequestBody) => {
+  logger.info( 'Request body for creation', maintenanceRequestBody )
   return MaintenanceRequest.create(maintenanceRequestBody)
 }
 
@@ -16,7 +19,7 @@ const createMaintenanceRequest = async (maintenanceRequestBody) => {
  * @returns {Promise<QueryResult>}
  */
 const listMaintenanceRequests = async () => {
-  const maintenanceRequests = await MaintenanceRequest.list()
+  const maintenanceRequests = await MaintenanceRequest.find()
   return maintenanceRequests
 }
 

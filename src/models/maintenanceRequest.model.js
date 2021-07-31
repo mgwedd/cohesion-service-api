@@ -41,8 +41,8 @@ const maintenanceRequestSchema = mongoose.Schema(
     // so that users can be notified via email upon request completion without extraneous schema fields
     createdBy: {
       type: String,
-      unique: true,
       trim: true,
+      required : true,
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -55,8 +55,8 @@ const maintenanceRequestSchema = mongoose.Schema(
     },
     lastModifiedBy: {
       type: String,
-      unique: true,
       trim: true,
+      required : true,
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {

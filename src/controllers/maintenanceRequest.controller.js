@@ -24,7 +24,7 @@ const getMaintenanceRequest = catchAsync(async (req, res) => {
 })
 
 const updateMaintenanceRequest = catchAsync(async (req, res) => {
-  const updatedMaintenanceRequest = await maintenanceRequestService.updatedMaintenanceRequestById(req.params.id, req.body)
+  const updatedMaintenanceRequest = await maintenanceRequestService.updateMaintenanceRequestById(req.params.id, req.body)
   res.send(updatedMaintenanceRequest)
 })
 
