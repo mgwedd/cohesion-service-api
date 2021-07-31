@@ -1,1 +1,1 @@
-module.exports.serviceRequestController = require('./serviceRequest.controller')
+module.exports.maintenanceRequestController = require('./maintenanceRequest.controller')

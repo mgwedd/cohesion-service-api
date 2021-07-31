@@ -1,12 +1,18 @@
 const express = require('express')
-const serviceRequestRoute = require('./serviceRequest.route')
+const maintenanceRequestRoute = require('./maintenancerequest.route')
 
 const router = express.Router()
 
+/**
+ * Note on naming:
+ * We use 'servicerequest' as the API resource path to satisfy requirements
+ * but 'maintenanceRequest' throughout the code in order to avoid naming confusion
+ * with the API's 'service' abstraction and the 'servicerequest' resources
+ */
 const routes = [
   {
     path: '/servicerequest',
-    route: serviceRequestRoute,
+    route: maintenanceRequestRoute,
   },
 ]
 

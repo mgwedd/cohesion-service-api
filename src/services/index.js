@@ -1,0 +1,1 @@
+module.exports.maintenanceRequestService = require('maintenanceRequest.service')

@@ -1,18 +1,18 @@
 
 const express = require('express')
-const { serviceRequestController } = require('../../controllers')
+const { maintenanceRequestController } = require('../../controllers')
 
 const router = express.Router()
 
 router
   .route('/')
-  .get(serviceRequestController.listServiceRequests)
-  .post(serviceRequestController.createServiceRequest)
+  .get(maintenanceRequestController.listServiceRequests)
+  .post(maintenanceRequestController.createServiceRequest)
 
 router
   .route('/:id')
-  .get(serviceRequestController.getServiceRequest)
-  .patch(serviceRequestController.updateServiceRequest)
-  .delete(serviceRequestController.deleteServiceRequest)
+  .get(maintenanceRequestController.getServiceRequest)
+  .patch(maintenanceRequestController.updateServiceRequest)
+  .delete(maintenanceRequestController.deleteServiceRequest)
 
 module.exports = router
