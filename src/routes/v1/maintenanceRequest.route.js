@@ -6,13 +6,13 @@ const router = express.Router()
 
 router
   .route('/')
-  .get(maintenanceRequestController.listServiceRequests)
-  .post(maintenanceRequestController.createServiceRequest)
+  .get(maintenanceRequestController.listMaintenanceRequests)
+  .post(maintenanceRequestController.createMaintenanceRequest)
 
 router
   .route('/:id')
-  .get(maintenanceRequestController.getServiceRequest)
-  .patch(maintenanceRequestController.updateServiceRequest)
-  .delete(maintenanceRequestController.deleteServiceRequest)
+  .get(maintenanceRequestController.getMaintenanceRequest)
+  .patch(maintenanceRequestController.updateMaintenanceRequest)
+  .delete(maintenanceRequestController.deleteMaintenanceRequest)
 
 module.exports = router
