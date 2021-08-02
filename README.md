@@ -26,6 +26,7 @@ Some specific notes:
 1. The tests are minimal. I wrote only a sample of each kind of test (unit, integration) to show how tests should be written for this server, but I didn't have time to flesh them all out.
 2. There is no user model or authentication or authorization, so this prototype of the server is open. It would require authentication (e.g. JWT) and RBAC authorization and a funcitonal user model in order to be secure and also to enable you to properly set the createdBy and lastModifiedBy fields on the service requests.
 3. The `GET /servicerequest` endpoint should have pagination and query options in a production-ready server, since the number of service requests is unbounded. It should also have default filtering to exclude service requests that are `Complete`.
+4. The routes need request validation instead of just depending on mongoose schema validation.
 
 ## Set up
 
