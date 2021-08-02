@@ -8,7 +8,7 @@ const httpStatus = require('http-status')
 
 const config = require('./config/config')
 const morgan = require('./config/morgan')
-const routes = require('./routes/v1')
+const apiRoutes = require('./routes/v1')
 const ApiError = require('./utils/ApiError')
 const { errorConverter, errorHandler } = require('./middleware/error')
 
@@ -39,8 +39,10 @@ app.use(compression())
 app.use(cors())
 app.options('*', cors())
 
+app.set('view engine', 'pug')
+
 // v1 api routes
-app.use('/api/v1', routes)
+app.use('/', apiRoutes)
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
