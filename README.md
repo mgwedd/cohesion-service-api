@@ -27,6 +27,7 @@ Some specific notes:
 2. There is no user model or authentication or authorization, so this prototype of the server is open. It would require authentication (e.g. JWT) and RBAC authorization and a funcitonal user model in order to be secure and also to enable you to properly set the createdBy and lastModifiedBy fields on the service requests.
 3. The `GET /servicerequest` endpoint should have pagination and query options in a production-ready server, since the number of service requests is unbounded. It should also have default filtering to exclude service requests that are `Complete`.
 4. The routes need request validation instead of just depending on mongoose schema validation.
+5. Obviously, we should not code directly on the master branch. This workflow was used because this is a coding challenge, not a real server
 
 ## Set up
 
