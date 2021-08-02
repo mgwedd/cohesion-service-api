@@ -1,8 +1,8 @@
-const express = require('express')
-const maintenanceRequestRoute = require('./maintenanceRequest.route')
-const defaultRoute = require('./default.route')
+const express = require('express');
+const maintenanceRequestRoute = require('./maintenanceRequest.route');
+const indexRoute = require('./default.route');
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * Note on naming:
@@ -16,24 +16,16 @@ const router = express.Router()
 const routes = [
   {
     path: '/',
-    route: defaultRoute,
+    route: indexRoute,
   },
-  // {
-  //   path: '/healthcheck',
-  //   route: defaultRoute,
-  // },
-  // {
-  //   path: '/monitoring',
-  //   route: defaultRoute,
-  // },
   {
     path: '/servicerequest',
     route: maintenanceRequestRoute,
   },
-]
+];
 
-routes.forEach(({path, route}) => {
-  router.use(path, route)
-})
+routes.forEach(({ path, route }) => {
+  router.use(path, route);
+});
 
-module.exports = router
+module.exports = router;

@@ -1,1 +1,1 @@
-module.exports.MaintenanceRequest = require('./maintenanceRequest.model')
+module.exports.MaintenanceRequest = require('./maintenanceRequest.model');

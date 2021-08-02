@@ -1,16 +1,16 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
+const mongoose = require('mongoose');
+const validator = require('validator');
 
-const { toJSON } = require('./plugins')
-const { logger } = require('../config')
-const { sendEmail } = require('../services/email.service')
+const { toJSON } = require('./plugins');
+const { logger } = require('../config');
+const { sendEmail } = require('../services/email.service');
 
 const schemaOptions = {
   timestamps: {
     createdAt: 'createdDate',
-    updatedAt : 'lastModifiedDate',
+    updatedAt: 'lastModifiedDate',
   },
-}
+};
 
 const maintenanceRequestSchema = mongoose.Schema(
   {
@@ -25,13 +25,7 @@ const maintenanceRequestSchema = mongoose.Schema(
     currentStatus: {
       type: String,
       trim: true,
-      enum: [
-        'NotApplicable',
-        'Created',
-        'InProgress',
-        'Complete',
-        'Canceled',
-      ],
+      enum: ['NotApplicable', 'Created', 'InProgress', 'Complete', 'Canceled'],
       default: 'Created',
     },
     // We use an email for createdBy and lastModifiedBy
@@ -47,7 +41,7 @@ const maintenanceRequestSchema = mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid user email')
+          throw new Error('Invalid user email');
         }
       },
     },
@@ -58,40 +52,40 @@ const maintenanceRequestSchema = mongoose.Schema(
       required: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid user email')
+          throw new Error('Invalid user email');
         }
       },
     },
   },
-  schemaOptions,
-)
+  schemaOptions
+);
 
-maintenanceRequestSchema.plugin(toJSON)
+maintenanceRequestSchema.plugin(toJSON);
 
-maintenanceRequestSchema.post('save', async ( doc ) => {
+maintenanceRequestSchema.post('save', async (doc) => {
   // TODO add more logic here so that a user wouldn't get continually emailed
   // if the document is re-saved with a "Complete" status — for example,
   // only sending the email if the previous currentStatus was not Complete.
   // TODO abstract this business logic into its own module to avoid cluttering the model
-  if ( doc.currentStatus === 'Complete' && doc.createdBy ) {
-    logger.info(`${doc._id} sending email`)
+  if (doc.currentStatus === 'Complete' && doc.createdBy) {
+    logger.info(`${doc._id} sending email`);
     // notify the user that their service request was marked as "Complete"
     // TODO use the users and ticket owners names, not their emails, for ref in the email, drawing from some future user model
-    const { createdBy : userEmail, lastModifiedBy : ticketOwnerEmail } = doc
+    const { createdBy: userEmail, lastModifiedBy: ticketOwnerEmail } = doc;
     const serviceRequestComplete = {
       to: userEmail,
       subject: 'Your Service Request Is Complete!',
       body: `Hello ${userEmail}!\n\nWe wanted to let you know that ${ticketOwnerEmail} successfully completed your service request.
       \n\nPlease reach out on the Service Request portal if you experience any other issues!\n\nWarmly,\nYour Home Team`,
-    }
+    };
     // don't await the nodemailer promise so as not to hold up the model patch request
-    sendEmail( serviceRequestComplete )
+    sendEmail(serviceRequestComplete);
   }
-})
+});
 
 /**
  * @typedef MaintenanceRequest
  */
-const MaintenanceRequest = mongoose.model('MaintenanceRequest', maintenanceRequestSchema)
+const MaintenanceRequest = mongoose.model('MaintenanceRequest', maintenanceRequestSchema);
 
-module.exports = MaintenanceRequest
+module.exports = MaintenanceRequest;

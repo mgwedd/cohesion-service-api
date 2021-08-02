@@ -1,8 +1,7 @@
-const httpStatus = require('http-status')
+const httpStatus = require('http-status');
 
-const { MaintenanceRequest } = require('../models')
-const ApiError = require('../utils/ApiError')
-const logger = require('../config/logger')
+const { MaintenanceRequest } = require('../models');
+const ApiError = require('../utils/ApiError');
 
 /**
  * Create a maintenance request
@@ -10,17 +9,17 @@ const logger = require('../config/logger')
  * @returns {Promise<MaintenanceRequest>}
  */
 const createMaintenanceRequest = async (maintenanceRequestBody) => {
-  return MaintenanceRequest.create(maintenanceRequestBody)
-}
+  return MaintenanceRequest.create(maintenanceRequestBody);
+};
 
 /**
  * List maintenance requests
  * @returns {Promise<QueryResult>}
  */
 const listMaintenanceRequests = async () => {
-  const maintenanceRequests = await MaintenanceRequest.find()
-  return maintenanceRequests
-}
+  const maintenanceRequests = await MaintenanceRequest.find();
+  return maintenanceRequests;
+};
 
 /**
  * Get maintenance request by id
@@ -28,8 +27,8 @@ const listMaintenanceRequests = async () => {
  * @returns {Promise<MaintenanceRequest>}
  */
 const getMaintenanceRequestById = async (id) => {
-  return MaintenanceRequest.findById(id)
-}
+  return MaintenanceRequest.findById(id);
+};
 
 /**
  * Update maintenance request by id
@@ -38,14 +37,14 @@ const getMaintenanceRequestById = async (id) => {
  * @returns {Promise<MaintenanceRequest>}
  */
 const updateMaintenanceRequestById = async (id, updateBody) => {
-  const maintenanceRequest = await getMaintenanceRequestById(id)
+  const maintenanceRequest = await getMaintenanceRequestById(id);
   if (!maintenanceRequest) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Service request not found')
+    throw new ApiError(httpStatus.NOT_FOUND, 'Service request not found');
   }
-  Object.assign(maintenanceRequest, updateBody)
-  await maintenanceRequest.save()
-  return maintenanceRequest
-}
+  Object.assign(maintenanceRequest, updateBody);
+  await maintenanceRequest.save();
+  return maintenanceRequest;
+};
 
 /**
  * Delete maintenance request by id
@@ -53,13 +52,13 @@ const updateMaintenanceRequestById = async (id, updateBody) => {
  * @returns {Promise<MaintenanceRequest>}
  */
 const deleteMaintenanceRequestById = async (id) => {
-  const maintenanceRequest = await getMaintenanceRequestById(id)
+  const maintenanceRequest = await getMaintenanceRequestById(id);
   if (!maintenanceRequest) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Service request not found')
+    throw new ApiError(httpStatus.NOT_FOUND, 'Service request not found');
   }
-  await maintenanceRequest.remove()
-  return maintenanceRequest
-}
+  await maintenanceRequest.remove();
+  return maintenanceRequest;
+};
 
 module.exports = {
   createMaintenanceRequest,
@@ -67,4 +66,4 @@ module.exports = {
   getMaintenanceRequestById,
   updateMaintenanceRequestById,
   deleteMaintenanceRequestById,
-}
+};

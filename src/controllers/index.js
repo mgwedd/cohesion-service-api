@@ -1,1 +1,1 @@
-module.exports.maintenanceRequestController = require('./maintenanceRequest.controller')
+module.exports.maintenanceRequestController = require('./maintenanceRequest.controller');
