@@ -10,7 +10,6 @@ const logger = require('../config/logger')
  * @returns {Promise<MaintenanceRequest>}
  */
 const createMaintenanceRequest = async (maintenanceRequestBody) => {
-  logger.info( 'Request body for creation', maintenanceRequestBody )
   return MaintenanceRequest.create(maintenanceRequestBody)
 }
 

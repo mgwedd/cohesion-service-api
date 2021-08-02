@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+
 const config = require('../config/config')
 const logger = require('../config/logger')
 
@@ -18,8 +19,8 @@ if (config.env !== 'test') {
  * @param {string} text
  * @returns {Promise}
  */
-const sendEmail = async (to, subject, text) => {
-  const msg = { from: config.email.from, to, subject, text }
+const sendEmail = async ({ to, subject, body }) => {
+  const msg = { from: config.email.from, to, subject, text : body }
   await transport.sendMail(msg)
 }
 

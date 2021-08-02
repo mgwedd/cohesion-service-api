@@ -3,14 +3,13 @@ const ApiError = require('../utils/ApiError')
 const catchAsync = require('../utils/catchAsync')
 const { maintenanceRequestService } = require('../services')
 
-// Add filtering and pagination options here when the API needs to scale
-
 const createMaintenanceRequest = catchAsync(async (req, res) => {
   const maintenanceRequest = await maintenanceRequestService.createMaintenanceRequest(req.body)
   res.status(httpStatus.CREATED).send(maintenanceRequest)
 })
 
 const listMaintenanceRequests = catchAsync(async (req, res) => {
+  // TODO Add filtering and pagination options in a production-ready version of this server so the API can scale
   const maintenanceRequestsList = await maintenanceRequestService.listMaintenanceRequests()
   res.send(maintenanceRequestsList)
 })
