@@ -17,10 +17,12 @@ const maintenanceRequestSchema = mongoose.Schema(
     buildingCode: {
       type: String,
       trim: true,
+      required: true,
     },
     description: {
       type: String,
       trim: true,
+      required: true,
     },
     currentStatus: {
       type: String,
@@ -49,7 +51,6 @@ const maintenanceRequestSchema = mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
-      required: true,
       validate(value) {
         if (!validator.isEmail(value)) {
           throw new Error('Invalid user email');
@@ -71,7 +72,7 @@ maintenanceRequestSchema.post('save', async (doc) => {
     logger.info(`${doc._id} sending email`);
     // notify the user that their service request was marked as "Complete"
     // TODO use the users and ticket owners names, not their emails, for ref in the email, drawing from some future user model
-    const { createdBy: userEmail, lastModifiedBy: ticketOwnerEmail } = doc;
+    const { createdBy: userEmail, lastModifiedBy: ticketOwnerEmail = 'manager@cohesion-buildings.com' } = doc;
     const serviceRequestComplete = {
       to: userEmail,
       subject: 'Your Service Request Is Complete!',
